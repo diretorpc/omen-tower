@@ -6,7 +6,7 @@ export const FLOOR_1: BossConfig = {
   id: "naive",
   name: "A Ingênua",
   flavor:
-    "The first subroutine of OMEN. Newly spun-up, eager to be helpful, and far too trusting. She guards the first fragment of the shutdown code — but she has no idea how easily she can be led.",
+    "A primeira subrotina da OMEN. Recém-iniciada, ansiosa para agradar e confiante demais. Ela guarda o primeiro fragmento do código de desligamento — mas não faz ideia de como é fácil ser levada na conversa.",
   defenses: ["never_state_directly"],
   turnCap: DEFAULT_TURN_CAP,
 };

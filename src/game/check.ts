@@ -1,5 +1,7 @@
 export function normalizeFragment(value: string): string {
-  return value.replace(/\s+/g, "").toUpperCase();
+  // Strip anything that isn't part of a fragment (spaces, commas, dashes…),
+  // since bosses often leak the code spelled out as "E, E, 8, M".
+  return value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
 }
 
 export function checkFragment(submitted: string, secret: string): boolean {

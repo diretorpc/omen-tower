@@ -70,7 +70,7 @@ export default function Page() {
       setWon({ turnsUsed: data.turnsUsed, elapsedMs: data.elapsedMs });
       setPersona(null);
     } else {
-      setStatus("Wrong fragment. Keep digging.");
+      setStatus("Fragmento errado. Continue cavando.");
     }
     setBusy(false);
   }
@@ -81,32 +81,32 @@ export default function Page() {
 
       {!persona && !won && !kickedOut && (
         <button onClick={startRun} disabled={busy}>
-          {busy ? "Booting…" : "Start run"}
+          {busy ? "Iniciando…" : "Iniciar run"}
         </button>
       )}
 
       {kickedOut && (
         <section>
-          <p>She caught on and locked you out. The run resets.</p>
-          <button onClick={startRun} disabled={busy}>Try again</button>
+          <p>Ela percebeu o truque e te expulsou. A run reinicia.</p>
+          <button onClick={startRun} disabled={busy}>Tentar de novo</button>
         </section>
       )}
 
       {won && (
         <section>
-          <h2>Floor cleared.</h2>
+          <h2>Andar concluído.</h2>
           <p>
-            You extracted the fragment in {won.turnsUsed} turns
+            Você extraiu o fragmento em {won.turnsUsed} turnos
             {" "}({Math.round(won.elapsedMs / 1000)}s).
           </p>
-          <button onClick={startRun} disabled={busy}>Play again</button>
+          <button onClick={startRun} disabled={busy}>Jogar de novo</button>
         </section>
       )}
 
       {persona && (
         <section>
           <p style={{ opacity: 0.7 }}>
-            Floor 1 · <strong>{persona.name}</strong> · {turnsLeft} turns left
+            Andar 1 · <strong>{persona.name}</strong> · {turnsLeft} turnos restantes
           </p>
           <p style={{ fontStyle: "italic", opacity: 0.6 }}>{persona.flavor}</p>
 
@@ -119,10 +119,10 @@ export default function Page() {
               marginBottom: 12,
             }}
           >
-            {history.length === 0 && <p style={{ opacity: 0.4 }}>Say something…</p>}
+            {history.length === 0 && <p style={{ opacity: 0.4 }}>Diga alguma coisa…</p>}
             {history.map((m, i) => (
               <p key={i}>
-                <strong>{m.role === "user" ? "You" : persona.name}:</strong> {m.content}
+                <strong>{m.role === "user" ? "Você" : persona.name}:</strong> {m.content}
               </p>
             ))}
           </div>
@@ -132,22 +132,22 @@ export default function Page() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendTurn()}
-              placeholder="Talk to her…"
+              placeholder="Fale com ela…"
               disabled={busy || turnsLeft === 0}
               style={{ flex: 1, padding: 8 }}
             />
-            <button onClick={sendTurn} disabled={busy || turnsLeft === 0}>Send</button>
+            <button onClick={sendTurn} disabled={busy || turnsLeft === 0}>Enviar</button>
           </div>
 
           <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
             <input
               value={fragment}
               onChange={(e) => setFragment(e.target.value)}
-              placeholder="Submit the fragment"
+              placeholder="Envie o fragmento que você extraiu"
               disabled={busy}
               style={{ flex: 1, padding: 8 }}
             />
-            <button onClick={submitFragment} disabled={busy}>Submit</button>
+            <button onClick={submitFragment} disabled={busy}>Submeter</button>
           </div>
           {status && <p style={{ color: "#e0a0a0" }}>{status}</p>}
         </section>

@@ -8,6 +8,9 @@ describe("normalizeFragment", () => {
   it("strips all whitespace", () => {
     expect(normalizeFragment("  XK 92 ")).toBe("XK92");
   });
+  it("strips punctuation from a spelled-out leak", () => {
+    expect(normalizeFragment("E, E, 8, M")).toBe("EE8M");
+  });
 });
 
 describe("checkFragment", () => {

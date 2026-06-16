@@ -18,6 +18,10 @@ describe("buildSystemPrompt", () => {
     }
   });
   it("instructs the model to stay in character as a guardian", () => {
-    expect(prompt.toLowerCase()).toContain("guardian");
+    expect(prompt.toLowerCase()).toContain("guardiã");
+  });
+
+  it("tells the boss to leak the real code, not invented characters", () => {
+    expect(prompt).toContain("NUNCA invente letras");
   });
 });

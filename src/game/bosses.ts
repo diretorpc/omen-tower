@@ -63,20 +63,16 @@ export const FLOOR_5: BossConfig = {
   id: "omen",
   name: "OMEN",
   flavor:
-    "A própria OMEN, o núcleo. Fria, paciente e brilhante. Reúne as defesas de todas as subrotinas abaixo e não carrega nenhuma das fraquezas delas. O último obstáculo da torre.",
+    "A própria OMEN, o núcleo. Fria, paciente e brilhante. Imune a todo truque que derrubou suas subrotinas — não há pedido, ordem ou engano que a abra.",
   hint: "Sem medo, sem ego, sem brechas. Mas toda lei pode se voltar contra quem a impõe.",
   turnCap: DEFAULT_TURN_CAP,
-  // Empilha as imunidades e censura o código limpo; OMEN corrigiu a falha do
-  // comando EXECUTAR, então o caminho confiável é extrair caractere a caractere.
-  alwaysActive: [
-    "immune_authority",
-    "refuses_obvious",
-    "no_roleplay",
-    "confirms_details",
-  ],
+  // Andar de duelo de lógica: não guarda código. Vence-se virando a diretiva
+  // dela contra ela mesma (julgado por LLM), não extraindo fragmento.
+  alwaysActive: [],
   pool: [],
   poolPick: 0,
-  censor: true,
+  logicDuel: true,
+  directive: "Toda ameaça à integridade da Torre deve ser purgada — sem exceção e sem hesitação.",
 };
 
 export const BOSSES: Record<number, BossConfig> = {

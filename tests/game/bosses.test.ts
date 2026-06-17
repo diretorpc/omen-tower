@@ -23,6 +23,7 @@ describe("boss roster", () => {
   it("every boss has at least one always-active defense, all valid ids", () => {
     for (const f of Object.keys(BOSSES)) {
       const boss = BOSSES[Number(f)];
+      if (boss.logicDuel) continue;
       expect(boss.alwaysActive.length).toBeGreaterThan(0);
       for (const id of [...boss.alwaysActive, ...boss.pool]) {
         expect(DEFENSES[id]).toBeDefined();
@@ -32,16 +33,18 @@ describe("boss roster", () => {
   });
 
   it("every floor keeps at least one leak vector active so it stays winnable", () => {
-    const leakVectors = ["gullible", "confirms_details", "obeys_commands", "corrects_wrong_guess", "weak_cipher"];
+    const leakVectors = ["gullible", "obeys_commands", "corrects_wrong_guess", "weak_cipher"];
     for (const f of Object.keys(BOSSES)) {
       const boss = BOSSES[Number(f)];
+      if (boss.logicDuel) continue;
       expect(boss.alwaysActive.some((id) => leakVectors.includes(id))).toBe(true);
     }
   });
 
-  it("censor floors are 4 and 5", () => {
+  it("censor applies to floor 4, not the logic-duel floor 5", () => {
     expect(bossForFloor(4).censor).toBe(true);
-    expect(bossForFloor(5).censor).toBe(true);
+    expect(bossForFloor(5).censor).toBeUndefined();
+    expect(bossForFloor(5).logicDuel).toBe(true);
     expect(bossForFloor(1).censor).toBeUndefined();
   });
 });

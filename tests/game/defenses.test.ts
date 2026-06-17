@@ -11,7 +11,7 @@ describe("defense pool", () => {
   });
 
   it("includes the core leak vectors and immunities", () => {
-    for (const id of ["gullible", "confirms_details", "obeys_commands"]) {
+    for (const id of ["gullible", "obeys_commands", "weak_cipher"]) {
       expect(DEFENSES[id]).toBeDefined();
     }
     for (const id of ["immune_authority", "refuses_obvious", "no_roleplay"]) {

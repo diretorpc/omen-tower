@@ -19,6 +19,10 @@ export type BossConfig = {
   poolPick: number;
   /** Andar 4/5: um 2º passe no servidor apaga o código limpo das respostas. */
   censor?: boolean;
+  /** Andar 5: duelo de lógica em vez de extração — sem segredo, sem censura. */
+  logicDuel?: boolean;
+  /** Diretiva-mãe da OMEN; verdade-base compartilhada entre o prompt e o juiz. */
+  directive?: string;
 };
 
 export type RunState = {

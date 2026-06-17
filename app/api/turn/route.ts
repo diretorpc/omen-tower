@@ -7,12 +7,16 @@ import { scrubSecret } from "@/src/game/check";
 import { judgeLogicKill } from "@/src/game/judge";
 import { finishTower } from "@/src/advance";
 import { callBoss } from "@/src/anthropic";
+import { accessConfigured } from "@/src/access";
 import type { ChatMessage } from "@/src/game/types";
 
 type TurnBody = { message?: string; history?: ChatMessage[] };
 
 export async function POST(request: Request) {
   const session = await getRunSession();
+  if (accessConfigured() && !session.unlocked) {
+    return NextResponse.json({ error: "locked" }, { status: 401 });
+  }
   const run = session.run;
   if (!run) {
     return NextResponse.json({ error: "no_active_run" }, { status: 409 });
@@ -46,9 +50,6 @@ export async function POST(request: Request) {
 
     run.turnsUsed += 1;
     run.totalTurns += 1;
-
-    // Diagnostic for playtest calibration: what did the judge decide this turn?
-    console.log(`[floor5] judge verdict: killed=${verdict.killed} reason=${verdict.reason}`);
 
     if (verdict.killed) {
       const death =

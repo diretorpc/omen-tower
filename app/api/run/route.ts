@@ -3,9 +3,13 @@ import { getRunSession } from "@/src/session";
 import { bossForFloor } from "@/src/game/bosses";
 import { rollFloor } from "@/src/game/randomize";
 import { turnsRemaining } from "@/src/game/turns";
+import { accessConfigured } from "@/src/access";
 
 export async function POST() {
   const session = await getRunSession();
+  if (accessConfigured() && !session.unlocked) {
+    return NextResponse.json({ error: "locked" }, { status: 401 });
+  }
   const boss = bossForFloor(1);
   const { secret, defenses } = rollFloor(boss);
 

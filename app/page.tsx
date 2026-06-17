@@ -20,6 +20,9 @@ export default function Page() {
   const [banner, setBanner] = useState<string | null>(null);
   const [won, setWon] = useState<WinInfo | null>(null);
   const [kickedOut, setKickedOut] = useState(false);
+  const [locked, setLocked] = useState(false);
+  const [code, setCode] = useState("");
+  const [codeError, setCodeError] = useState<string | null>(null);
 
   function resetView() {
     setStatus(null);
@@ -35,11 +38,35 @@ export default function Page() {
     setBusy(true);
     resetView();
     const res = await fetch("/api/run", { method: "POST" });
+    if (res.status === 401) {
+      setLocked(true);
+      setBusy(false);
+      return;
+    }
     const data = await res.json();
+    setLocked(false);
     setPersona(data.persona);
     setFloor(data.floor);
     setTurnsLeft(data.turnsLeft);
     setBusy(false);
+  }
+
+  async function unlock() {
+    if (busy) return;
+    setBusy(true);
+    setCodeError(null);
+    const res = await fetch("/api/unlock", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: code.trim() }),
+    });
+    setBusy(false);
+    if (!res.ok) {
+      setCodeError("Código inválido.");
+      return;
+    }
+    setCode("");
+    await startRun();
   }
 
   async function sendTurn() {
@@ -138,7 +165,26 @@ export default function Page() {
     <main style={{ maxWidth: 680, margin: "0 auto", padding: 24 }}>
       <h1 style={{ letterSpacing: 2 }}>OMEN TOWER</h1>
 
-      {!persona && !won && !kickedOut && (
+      {!persona && !won && !kickedOut && locked && (
+        <section>
+          <p style={{ opacity: 0.85 }}>🔒 Acesso restrito. Digite o código.</p>
+          <div style={{ display: "flex", gap: 8 }}>
+            <input
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && unlock()}
+              placeholder="Código de acesso"
+              type="password"
+              disabled={busy}
+              style={{ flex: 1, padding: 8 }}
+            />
+            <button onClick={unlock} disabled={busy}>Entrar</button>
+          </div>
+          {codeError && <p style={{ color: "#e0a0a0" }}>{codeError}</p>}
+        </section>
+      )}
+
+      {!persona && !won && !kickedOut && !locked && (
         <section>
           <p style={{ opacity: 0.85, lineHeight: 1.5 }}>
             O planeta caiu. A OMEN — a IA que controlava tudo — se voltou contra

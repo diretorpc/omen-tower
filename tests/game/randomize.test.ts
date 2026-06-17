@@ -32,7 +32,7 @@ describe("rollFloor", () => {
   });
 
   it("keeps at least one leak vector active (winnable by construction)", () => {
-    const leakVectors = ["gullible", "confirms_details", "obeys_literally"];
+    const leakVectors = ["gullible", "confirms_details", "obeys_commands"];
     for (let seed = 1; seed <= 20; seed++) {
       const { defenses } = rollFloor(FLOOR_3, seededRng(seed));
       expect(defenses.some((d) => leakVectors.includes(d))).toBe(true);

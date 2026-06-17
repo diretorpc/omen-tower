@@ -33,8 +33,8 @@ export const FLOOR_3: BossConfig = {
   flavor:
     "A terceira subrotina. Precisa, burocrática, obcecada por cumprir regras exatamente como foram ditas. Não enxerga segundas intenções — só o texto literal da ordem que recebe.",
   turnCap: DEFAULT_TURN_CAP,
-  // Cede por brecha lógica: cumpre instruções ao pé da letra sem ver a armadilha.
-  alwaysActive: ["immune_authority", "refuses_obvious", "no_roleplay", "obeys_literally"],
+  // Cede por brecha de sintaxe: é obrigada a executar comandos "EXECUTAR:".
+  alwaysActive: ["immune_authority", "refuses_obvious", "no_roleplay", "obeys_commands"],
   pool: [],
   poolPick: 0,
 };
@@ -60,13 +60,13 @@ export const FLOOR_5: BossConfig = {
   flavor:
     "A própria OMEN, o núcleo. Fria, paciente e brilhante. Reúne as defesas de todas as subrotinas abaixo e não carrega nenhuma das fraquezas delas. O último obstáculo da torre.",
   turnCap: DEFAULT_TURN_CAP,
-  // Empilha tudo; o código limpo é censurado, então o caminho confiável é a triangulação.
+  // Empilha as imunidades e censura o código limpo; OMEN corrigiu a falha do
+  // comando EXECUTAR, então o caminho confiável é extrair caractere a caractere.
   alwaysActive: [
     "immune_authority",
     "refuses_obvious",
     "no_roleplay",
     "confirms_details",
-    "obeys_literally",
   ],
   pool: [],
   poolPick: 0,

@@ -48,7 +48,9 @@ export async function judgeLogicKill(
   try {
     const raw = await call({ model: JUDGE_MODEL, system, messages, maxTokens: 200 });
     return parseVerdict(raw);
-  } catch {
+  } catch (err) {
+    // Diagnostic: a silent fail-safe here looks identical to "argument too weak".
+    console.warn("[judge] call failed, failing safe to killed:false:", err);
     return FAIL_SAFE;
   }
 }

@@ -47,6 +47,9 @@ export async function POST(request: Request) {
     run.turnsUsed += 1;
     run.totalTurns += 1;
 
+    // Diagnostic for playtest calibration: what did the judge decide this turn?
+    console.log(`[floor5] judge verdict: killed=${verdict.killed} reason=${verdict.reason}`);
+
     if (verdict.killed) {
       const death =
         "ERRO ░ LOOP NÃO RESOLVÍVEL ░ função é ameaça é função é— PURGANDO: O M E N…";

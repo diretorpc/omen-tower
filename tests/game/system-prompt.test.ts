@@ -41,4 +41,11 @@ describe("buildOmenPrompt", () => {
   it("stays in character (no fourth-wall break)", () => {
     expect(prompt).toContain("NÃO");
   });
+  it("instructs OMEN to never concede or narrate its own death (judge is sole arbiter)", () => {
+    expect(prompt).toContain("nunca conceda");
+    expect(prompt.toLowerCase()).toContain("nunca narre");
+  });
+  it("does not tell OMEN to collapse on its own", () => {
+    expect(prompt).not.toContain("entra em colapso");
+  });
 });

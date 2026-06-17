@@ -69,6 +69,35 @@ export default function Page() {
     setBusy(false);
   }
 
+  // Aplica a resposta de avanço (vitória da torre ou subida de andar).
+  function applyAdvance(data: {
+    won?: boolean;
+    clearedFloors?: number;
+    totalTurns?: number;
+    elapsedMs?: number;
+    floor?: number;
+    persona?: Persona;
+    turnsLeft?: number;
+  }) {
+    if (data.won) {
+      setWon({
+        clearedFloors: data.clearedFloors ?? 0,
+        totalTurns: data.totalTurns ?? 0,
+        elapsedMs: data.elapsedMs ?? 0,
+      });
+      setPersona(null);
+      return;
+    }
+    const clearedFloor = floor;
+    setHistory([]);
+    setFragment("");
+    setInput("");
+    if (data.persona) setPersona(data.persona);
+    if (data.floor) setFloor(data.floor);
+    setTurnsLeft(data.turnsLeft ?? 0);
+    setBanner(`🔓 Andar ${clearedFloor} limpo! Você sobe para o andar ${data.floor}.`);
+  }
+
   async function submitFragment() {
     if (busy) return;
     setBusy(true);
@@ -85,27 +114,17 @@ export default function Page() {
       setBusy(false);
       return;
     }
+    applyAdvance(data);
+    setBusy(false);
+  }
 
-    if (data.won) {
-      setWon({
-        clearedFloors: data.clearedFloors,
-        totalTurns: data.totalTurns,
-        elapsedMs: data.elapsedMs,
-      });
-      setPersona(null);
-      setBusy(false);
-      return;
-    }
-
-    // Subiu de andar.
-    const clearedFloor = floor;
-    setHistory([]);
-    setFragment("");
-    setInput("");
-    setPersona(data.persona);
-    setFloor(data.floor);
-    setTurnsLeft(data.turnsLeft);
-    setBanner(`🔓 Andar ${clearedFloor} limpo! Você sobe para o andar ${data.floor}.`);
+  async function skipFloor() {
+    if (busy) return;
+    setBusy(true);
+    setStatus(null);
+    const res = await fetch("/api/skip", { method: "POST" });
+    const data = await res.json();
+    if (data.correct) applyAdvance(data);
     setBusy(false);
   }
 
@@ -185,6 +204,16 @@ export default function Page() {
             <button onClick={submitFragment} disabled={busy}>Submeter</button>
           </div>
           {status && <p style={{ color: "#e0a0a0" }}>{status}</p>}
+
+          {process.env.NODE_ENV !== "production" && (
+            <button
+              onClick={skipFloor}
+              disabled={busy}
+              style={{ marginTop: 12, opacity: 0.5, fontSize: 12 }}
+            >
+              ⏭ Pular andar (dev)
+            </button>
+          )}
         </section>
       )}
     </main>

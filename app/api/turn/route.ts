@@ -37,6 +37,7 @@ export async function POST(request: Request) {
   const reply = await callBoss(system, messages);
 
   run.turnsUsed += 1;
+  run.totalTurns += 1;
   await session.save();
 
   const left = turnsRemaining(run.turnsUsed, boss.turnCap);

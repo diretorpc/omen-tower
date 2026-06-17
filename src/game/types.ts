@@ -23,7 +23,10 @@ export type RunState = {
   floor: number;
   secret: string;
   defenses: string[];
+  /** Turnos usados no andar atual (reseta ao subir). */
   turnsUsed: number;
+  /** Turnos acumulados na run inteira (para o placar). */
+  totalTurns: number;
   startedAt: number;
   clearedFloors: number;
 };

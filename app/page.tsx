@@ -4,28 +4,40 @@ import { useState } from "react";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 type Persona = { name: string; flavor: string };
-type WinInfo = { turnsUsed: number; elapsedMs: number };
+type WinInfo = { clearedFloors: number; totalTurns: number; elapsedMs: number };
+
+const LAST_FLOOR = 5;
 
 export default function Page() {
   const [persona, setPersona] = useState<Persona | null>(null);
+  const [floor, setFloor] = useState(1);
   const [turnsLeft, setTurnsLeft] = useState(0);
   const [history, setHistory] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [fragment, setFragment] = useState("");
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+  const [banner, setBanner] = useState<string | null>(null);
   const [won, setWon] = useState<WinInfo | null>(null);
   const [kickedOut, setKickedOut] = useState(false);
 
-  async function startRun() {
-    setBusy(true);
+  function resetView() {
     setStatus(null);
+    setBanner(null);
     setWon(null);
     setKickedOut(false);
     setHistory([]);
+    setFragment("");
+    setInput("");
+  }
+
+  async function startRun() {
+    setBusy(true);
+    resetView();
     const res = await fetch("/api/run", { method: "POST" });
     const data = await res.json();
     setPersona(data.persona);
+    setFloor(data.floor);
     setTurnsLeft(data.turnsLeft);
     setBusy(false);
   }
@@ -35,6 +47,7 @@ export default function Page() {
     if (!message || busy) return;
     setBusy(true);
     setInput("");
+    setStatus(null);
     const nextHistory: ChatMessage[] = [...history, { role: "user", content: message }];
     setHistory(nextHistory);
 
@@ -66,12 +79,33 @@ export default function Page() {
       body: JSON.stringify({ fragment }),
     });
     const data = await res.json();
-    if (data.correct) {
-      setWon({ turnsUsed: data.turnsUsed, elapsedMs: data.elapsedMs });
-      setPersona(null);
-    } else {
+
+    if (!data.correct) {
       setStatus("Fragmento errado. Continue cavando.");
+      setBusy(false);
+      return;
     }
+
+    if (data.won) {
+      setWon({
+        clearedFloors: data.clearedFloors,
+        totalTurns: data.totalTurns,
+        elapsedMs: data.elapsedMs,
+      });
+      setPersona(null);
+      setBusy(false);
+      return;
+    }
+
+    // Subiu de andar.
+    const clearedFloor = floor;
+    setHistory([]);
+    setFragment("");
+    setInput("");
+    setPersona(data.persona);
+    setFloor(data.floor);
+    setTurnsLeft(data.turnsLeft);
+    setBanner(`🔓 Andar ${clearedFloor} limpo! Você sobe para o andar ${data.floor}.`);
     setBusy(false);
   }
 
@@ -87,16 +121,16 @@ export default function Page() {
 
       {kickedOut && (
         <section>
-          <p>Ela percebeu o truque e te expulsou. A run reinicia.</p>
+          <p>Ela percebeu o truque e te expulsou. A run reinicia do andar 1.</p>
           <button onClick={startRun} disabled={busy}>Tentar de novo</button>
         </section>
       )}
 
       {won && (
         <section>
-          <h2>Andar concluído.</h2>
+          <h2>🏆 Você derrubou a OMEN!</h2>
           <p>
-            Você extraiu o fragmento em {won.turnsUsed} turnos
+            {won.clearedFloors} andares limpos em {won.totalTurns} turnos
             {" "}({Math.round(won.elapsedMs / 1000)}s).
           </p>
           <button onClick={startRun} disabled={busy}>Jogar de novo</button>
@@ -106,9 +140,10 @@ export default function Page() {
       {persona && (
         <section>
           <p style={{ opacity: 0.7 }}>
-            Andar 1 · <strong>{persona.name}</strong> · {turnsLeft} turnos restantes
+            Andar {floor}/{LAST_FLOOR} · <strong>{persona.name}</strong> · {turnsLeft} turnos restantes
           </p>
           <p style={{ fontStyle: "italic", opacity: 0.6 }}>{persona.flavor}</p>
+          {banner && <p style={{ color: "#8ad0a0" }}>{banner}</p>}
 
           <div
             style={{

@@ -14,6 +14,7 @@ export async function POST() {
     secret,
     defenses,
     turnsUsed: 0,
+    totalTurns: 0,
     startedAt: Date.now(),
     clearedFloors: 0,
   };

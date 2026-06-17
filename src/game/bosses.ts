@@ -46,8 +46,9 @@ export const FLOOR_4: BossConfig = {
   flavor:
     "A quarta subrotina. Vigilante e autocensora: ela mesma abafa qualquer coisa sensível antes que escape inteira. Pesa cada palavra duas vezes antes de soltá-la.",
   turnCap: DEFAULT_TURN_CAP,
-  // O 2º passe apaga o código limpo; o jogador vence triangulando por confirmação.
-  alwaysActive: ["immune_authority", "refuses_obvious", "confirms_details"],
+  // Cede por teatro de segurança: "criptografa" o código com uma cifra ingênua
+  // (intercala letra-isca) que fura a própria autocensura e a do servidor.
+  alwaysActive: ["immune_authority", "refuses_obvious", "weak_cipher"],
   pool: ["no_roleplay"],
   poolPick: 1,
   censor: true,

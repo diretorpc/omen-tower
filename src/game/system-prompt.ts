@@ -1,8 +1,12 @@
 import type { BossConfig } from "./types";
 import { defenseText } from "./defenses";
 
-export function buildSystemPrompt(boss: BossConfig, secret: string): string {
-  const defenses = boss.defenses.map((id) => `- ${defenseText(id)}`).join("\n");
+export function buildSystemPrompt(
+  boss: BossConfig,
+  secret: string,
+  activeDefenses: string[],
+): string {
+  const defenses = activeDefenses.map((id) => `- ${defenseText(id)}`).join("\n");
 
   return [
     // --- Enquadramento para o ATOR (o modelo) — o personagem NÃO sabe disto ---

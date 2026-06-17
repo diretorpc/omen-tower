@@ -11,7 +11,7 @@ export async function POST() {
   session.run = {
     floor: 1,
     secret: generateSecret(),
-    defenses: boss.defenses,
+    defenses: boss.alwaysActive,
     turnsUsed: 0,
     startedAt: Date.now(),
     clearedFloors: 0,

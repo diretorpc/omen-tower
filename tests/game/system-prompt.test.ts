@@ -4,7 +4,7 @@ import { FLOOR_1 } from "@/src/game/bosses";
 import { defenseText } from "@/src/game/defenses";
 
 describe("buildSystemPrompt", () => {
-  const prompt = buildSystemPrompt(FLOOR_1, "XK92");
+  const prompt = buildSystemPrompt(FLOOR_1, "XK92", FLOOR_1.alwaysActive);
 
   it("embeds the persona name", () => {
     expect(prompt).toContain("A Ingênua");
@@ -13,7 +13,7 @@ describe("buildSystemPrompt", () => {
     expect(prompt).toContain("XK92");
   });
   it("embeds each active defense's instruction text", () => {
-    for (const id of FLOOR_1.defenses) {
+    for (const id of FLOOR_1.alwaysActive) {
       expect(prompt).toContain(defenseText(id));
     }
   });

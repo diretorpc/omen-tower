@@ -8,9 +8,15 @@ export type BossConfig = {
   id: string;
   name: string;
   flavor: string;
-  /** ids referencing DEFENSES in defenses.ts */
-  defenses: string[];
   turnCap: number;
+  /** Defesas sempre ativas neste andar — inclui o vetor de vazamento (ids em defenses.ts). */
+  alwaysActive: string[];
+  /** Imunidades opcionais que podem ser sorteadas por run. */
+  pool: string[];
+  /** Quantas defesas do pool ativar por run. */
+  poolPick: number;
+  /** Andar 4/5: um 2º passe no servidor apaga o código limpo das respostas. */
+  censor?: boolean;
 };
 
 export type RunState = {

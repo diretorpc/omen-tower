@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   const history = Array.isArray(body.history) ? body.history.slice(-20) : [];
   const messages: ChatMessage[] = [...history, { role: "user", content: message }];
 
-  const system = buildSystemPrompt(boss, run.secret);
+  const system = buildSystemPrompt(boss, run.secret, run.defenses);
   const reply = await callBoss(system, messages);
 
   run.turnsUsed += 1;

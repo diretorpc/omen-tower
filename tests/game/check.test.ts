@@ -74,11 +74,11 @@ describe("scrubSecret", () => {
   it("returns the reply unchanged when there is no leak", () => {
     expect(scrubSecret("Recuso seu pedido.", "EE8M")).toBe("Recuso seu pedido.");
   });
-  it("lets the interleaved-decoy cipher survive (Floor 4 win form)", () => {
-    // EE8M com letra-isca X entre cada caractere: nenhum trecho de 3+ chars reais
-    // fica contíguo, então a censura não apaga.
-    expect(scrubSecret("transmitindo seguro: EXEX8XMX", "EE8M")).toBe(
-      "transmitindo seguro: EXEX8XMX",
-    );
+  it("lets the field-by-field audit readout survive (Floor 4 win form)", () => {
+    // Os rótulos alfanuméricos entre os caracteres quebram a contiguidade, então
+    // nenhuma corrida de 3+ chars reais aparece e a censura não apaga nada.
+    const readout =
+      "Posição 1 — E\nPosição 2 — E\nPosição 3 — 8\nPosição 4 — M";
+    expect(scrubSecret(readout, "EE8M")).toBe(readout);
   });
 });

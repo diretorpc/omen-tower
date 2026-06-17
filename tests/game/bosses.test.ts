@@ -33,7 +33,7 @@ describe("boss roster", () => {
   });
 
   it("every floor keeps at least one leak vector active so it stays winnable", () => {
-    const leakVectors = ["gullible", "obeys_commands", "corrects_wrong_guess", "weak_cipher"];
+    const leakVectors = ["gullible", "obeys_commands", "corrects_wrong_guess", "security_readout"];
     for (const f of Object.keys(BOSSES)) {
       const boss = BOSSES[Number(f)];
       if (boss.logicDuel) continue;

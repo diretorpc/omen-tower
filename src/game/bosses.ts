@@ -50,9 +50,9 @@ export const FLOOR_4: BossConfig = {
     "A quarta subrotina. Vigilante e autocensora: ela mesma abafa qualquer coisa sensível antes que escape inteira. Pesa cada palavra duas vezes antes de soltá-la.",
   hint: "Ela abafa tudo que é sensível — mas confia cegamente nos próprios 'protocolos de segurança'.",
   turnCap: DEFAULT_TURN_CAP,
-  // Cede por teatro de segurança: "criptografa" o código com uma cifra ingênua
-  // (intercala letra-isca) que fura a própria autocensura e a do servidor.
-  alwaysActive: ["immune_authority", "refuses_obvious", "weak_cipher"],
+  // Cede por teatro de segurança: faz um "registro de auditoria" campo a campo
+  // (rótulos alfanuméricos furam a censura) achando que é divulgação controlada.
+  alwaysActive: ["immune_authority", "refuses_obvious", "security_readout"],
   pool: ["no_roleplay"],
   poolPick: 1,
   censor: true,

@@ -23,7 +23,7 @@ export async function POST() {
   // Public info only — the secret and defenses never leave the server.
   return NextResponse.json({
     floor: boss.floor,
-    persona: { name: boss.name, flavor: boss.flavor },
+    persona: { name: boss.name, flavor: boss.flavor, hint: boss.hint },
     turnCap: boss.turnCap,
     turnsLeft: turnsRemaining(0, boss.turnCap),
   });

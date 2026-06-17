@@ -26,7 +26,7 @@ export async function advanceRun(session: IronSession<RunSession>) {
       correct: true as const,
       won: false as const,
       floor: nextBoss.floor,
-      persona: { name: nextBoss.name, flavor: nextBoss.flavor },
+      persona: { name: nextBoss.name, flavor: nextBoss.flavor, hint: nextBoss.hint },
       turnCap: nextBoss.turnCap,
       turnsLeft: turnsRemaining(0, nextBoss.turnCap),
     };

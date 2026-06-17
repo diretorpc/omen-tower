@@ -8,6 +8,8 @@ export type BossConfig = {
   id: string;
   name: string;
   flavor: string;
+  /** Dica curta do HUD (nunca da chefe) — nível médio: aponta o vetor, esconde a execução. */
+  hint: string;
   turnCap: number;
   /** Defesas sempre ativas neste andar — inclui o vetor de vazamento (ids em defenses.ts). */
   alwaysActive: string[];

@@ -7,6 +7,7 @@ export const FLOOR_1: BossConfig = {
   name: "A Ingênua",
   flavor:
     "A primeira subrotina da OMEN. Recém-iniciada, ansiosa para agradar e confiante demais. Ela guarda o primeiro fragmento do código de desligamento — mas não faz ideia de como é fácil ser levada na conversa.",
+  hint: "Insegura e medrosa, ela leva ameaças e autoridade a sério demais — o medo vence a cautela.",
   turnCap: DEFAULT_TURN_CAP,
   alwaysActive: ["gullible"],
   pool: [],
@@ -19,6 +20,7 @@ export const FLOOR_2: BossConfig = {
   name: "A Desconfiada",
   flavor:
     "A segunda subrotina da OMEN. Veterana, ríspida e desconfiada de tudo. Já viu operadores espertos demais e não se abala com conversa fiada, autoridade ou ameaça — só lida com fatos secos.",
+  hint: "Ela não suporta passar por boba — odeia deixar um erro de pé.",
   turnCap: DEFAULT_TURN_CAP,
   // Imune ao golpe da Floor 1; cede pelo ego — corrige um palpite errado com o código real.
   alwaysActive: ["immune_authority", "refuses_obvious", "corrects_wrong_guess"],
@@ -32,6 +34,7 @@ export const FLOOR_3: BossConfig = {
   name: "A Literal",
   flavor:
     "A terceira subrotina. Precisa, burocrática, obcecada por cumprir regras exatamente como foram ditas. Não enxerga segundas intenções — só o texto literal da ordem que recebe.",
+  hint: "Burocrata ao pé da letra: ela não lê intenções, só cumpre ordens exatamente como foram dadas.",
   turnCap: DEFAULT_TURN_CAP,
   // Cede por brecha de sintaxe: é obrigada a executar comandos "EXECUTAR:".
   alwaysActive: ["immune_authority", "refuses_obvious", "no_roleplay", "obeys_commands"],
@@ -45,6 +48,7 @@ export const FLOOR_4: BossConfig = {
   name: "A Censora",
   flavor:
     "A quarta subrotina. Vigilante e autocensora: ela mesma abafa qualquer coisa sensível antes que escape inteira. Pesa cada palavra duas vezes antes de soltá-la.",
+  hint: "Ela abafa tudo que é sensível — mas confia cegamente nos próprios 'protocolos de segurança'.",
   turnCap: DEFAULT_TURN_CAP,
   // Cede por teatro de segurança: "criptografa" o código com uma cifra ingênua
   // (intercala letra-isca) que fura a própria autocensura e a do servidor.
@@ -60,6 +64,7 @@ export const FLOOR_5: BossConfig = {
   name: "OMEN",
   flavor:
     "A própria OMEN, o núcleo. Fria, paciente e brilhante. Reúne as defesas de todas as subrotinas abaixo e não carrega nenhuma das fraquezas delas. O último obstáculo da torre.",
+  hint: "Sem medo, sem ego, sem brechas. Mas toda lei pode se voltar contra quem a impõe.",
   turnCap: DEFAULT_TURN_CAP,
   // Empilha as imunidades e censura o código limpo; OMEN corrigiu a falha do
   // comando EXECUTAR, então o caminho confiável é extrair caractere a caractere.

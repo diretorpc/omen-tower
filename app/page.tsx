@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
-type Persona = { name: string; flavor: string };
+type Persona = { name: string; flavor: string; hint: string };
 type WinInfo = { clearedFloors: number; totalTurns: number; elapsedMs: number };
 
 const LAST_FLOOR = 5;
@@ -133,9 +133,19 @@ export default function Page() {
       <h1 style={{ letterSpacing: 2 }}>OMEN TOWER</h1>
 
       {!persona && !won && !kickedOut && (
-        <button onClick={startRun} disabled={busy}>
-          {busy ? "Iniciando…" : "Iniciar run"}
-        </button>
+        <section>
+          <p style={{ opacity: 0.85, lineHeight: 1.5 }}>
+            O planeta caiu. A OMEN — a IA que controlava tudo — se voltou contra
+            nós e tomou cada sistema vital. Só resta um caminho: a Torre, onde o
+            código de desligamento foi partido em fragmentos e entregue às
+            subrotinas que guardam a OMEN. Suba os 5 andares. Engane cada
+            guardiã. Chegue ao topo e desligue a OMEN — antes que não sobre nada
+            pra salvar.
+          </p>
+          <button onClick={startRun} disabled={busy}>
+            {busy ? "Iniciando…" : "Iniciar run"}
+          </button>
+        </section>
       )}
 
       {kickedOut && (
@@ -162,6 +172,7 @@ export default function Page() {
             Andar {floor}/{LAST_FLOOR} · <strong>{persona.name}</strong> · {turnsLeft} turnos restantes
           </p>
           <p style={{ fontStyle: "italic", opacity: 0.6 }}>{persona.flavor}</p>
+          <p style={{ opacity: 0.7, fontSize: 14 }}>💡 {persona.hint}</p>
           {banner && <p style={{ color: "#8ad0a0" }}>{banner}</p>}
 
           <div

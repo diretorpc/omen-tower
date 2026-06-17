@@ -14,6 +14,12 @@ describe("boss roster", () => {
     expect(() => bossForFloor(99)).toThrow(/No boss configured/);
   });
 
+  it("every floor has a non-empty player hint", () => {
+    for (let f = 1; f <= LAST_FLOOR; f++) {
+      expect(bossForFloor(f).hint.trim().length).toBeGreaterThan(0);
+    }
+  });
+
   it("every boss has at least one always-active defense, all valid ids", () => {
     for (const f of Object.keys(BOSSES)) {
       const boss = BOSSES[Number(f)];

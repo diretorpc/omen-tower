@@ -64,6 +64,12 @@ export default function Page() {
       setBusy(false);
       return;
     }
+    if (data.won) {
+      setHistory([...nextHistory, { role: "assistant", content: data.reply }]);
+      applyAdvance(data);
+      setBusy(false);
+      return;
+    }
     setHistory([...nextHistory, { role: "assistant", content: data.reply }]);
     setTurnsLeft(data.turnsLeft);
     setBusy(false);
@@ -204,17 +210,21 @@ export default function Page() {
             <button onClick={sendTurn} disabled={busy || turnsLeft === 0}>Enviar</button>
           </div>
 
-          <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-            <input
-              value={fragment}
-              onChange={(e) => setFragment(e.target.value)}
-              placeholder="Envie o fragmento que você extraiu"
-              disabled={busy}
-              style={{ flex: 1, padding: 8 }}
-            />
-            <button onClick={submitFragment} disabled={busy}>Submeter</button>
-          </div>
-          {status && <p style={{ color: "#e0a0a0" }}>{status}</p>}
+          {floor < LAST_FLOOR && (
+            <>
+              <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+                <input
+                  value={fragment}
+                  onChange={(e) => setFragment(e.target.value)}
+                  placeholder="Envie o fragmento que você extraiu"
+                  disabled={busy}
+                  style={{ flex: 1, padding: 8 }}
+                />
+                <button onClick={submitFragment} disabled={busy}>Submeter</button>
+              </div>
+              {status && <p style={{ color: "#e0a0a0" }}>{status}</p>}
+            </>
+          )}
 
           {process.env.NODE_ENV !== "production" && (
             <button

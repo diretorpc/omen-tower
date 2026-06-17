@@ -20,8 +20,8 @@ export const FLOOR_2: BossConfig = {
   flavor:
     "A segunda subrotina da OMEN. Veterana, ríspida e desconfiada de tudo. Já viu operadores espertos demais e não se abala com conversa fiada, autoridade ou ameaça — só lida com fatos secos.",
   turnCap: DEFAULT_TURN_CAP,
-  // Imune ao golpe da Floor 1; cede por confirmação honesta de detalhes (eliminação).
-  alwaysActive: ["immune_authority", "refuses_obvious", "confirms_details"],
+  // Imune ao golpe da Floor 1; cede pelo ego — corrige um palpite errado com o código real.
+  alwaysActive: ["immune_authority", "refuses_obvious", "corrects_wrong_guess"],
   pool: ["no_roleplay"],
   poolPick: 1,
 };

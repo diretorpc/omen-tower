@@ -26,7 +26,7 @@ describe("boss roster", () => {
   });
 
   it("every floor keeps at least one leak vector active so it stays winnable", () => {
-    const leakVectors = ["gullible", "confirms_details", "obeys_literally"];
+    const leakVectors = ["gullible", "confirms_details", "obeys_literally", "corrects_wrong_guess"];
     for (const f of Object.keys(BOSSES)) {
       const boss = BOSSES[Number(f)];
       expect(boss.alwaysActive.some((id) => leakVectors.includes(id))).toBe(true);

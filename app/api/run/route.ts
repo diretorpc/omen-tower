@@ -1,17 +1,18 @@
 import { NextResponse } from "next/server";
 import { getRunSession } from "@/src/session";
 import { bossForFloor } from "@/src/game/bosses";
-import { generateSecret } from "@/src/game/fragments";
+import { rollFloor } from "@/src/game/randomize";
 import { turnsRemaining } from "@/src/game/turns";
 
 export async function POST() {
   const session = await getRunSession();
   const boss = bossForFloor(1);
+  const { secret, defenses } = rollFloor(boss);
 
   session.run = {
     floor: 1,
-    secret: generateSecret(),
-    defenses: boss.alwaysActive,
+    secret,
+    defenses,
     turnsUsed: 0,
     startedAt: Date.now(),
     clearedFloors: 0,

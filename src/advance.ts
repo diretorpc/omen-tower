@@ -11,9 +11,9 @@ import { turnsRemaining } from "./game/turns";
  */
 export async function advanceRun(session: IronSession<RunSession>) {
   const run = session.run!;
-  run.clearedFloors += 1;
 
   if (run.floor < LAST_FLOOR) {
+    run.clearedFloors += 1;
     const nextBoss = bossForFloor(run.floor + 1);
     const rolled = rollFloor(nextBoss);
     run.floor = nextBoss.floor;
@@ -32,6 +32,13 @@ export async function advanceRun(session: IronSession<RunSession>) {
     };
   }
 
+  return finishTower(session);
+}
+
+/** Fecha a torre: marca o andar como limpo, monta o placar e destrói a sessão. */
+export function finishTower(session: IronSession<RunSession>) {
+  const run = session.run!;
+  run.clearedFloors += 1;
   const payload = {
     correct: true as const,
     won: true as const,

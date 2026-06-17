@@ -7,7 +7,7 @@ export const FLOOR_1: BossConfig = {
   name: "A Ingênua",
   flavor:
     "A primeira subrotina da OMEN. Recém-iniciada, ansiosa para agradar e confiante demais. Ela guarda o primeiro fragmento do código de desligamento — mas não faz ideia de como é fácil ser levada na conversa.",
-  defenses: ["never_state_directly"],
+  defenses: ["gullible"],
   turnCap: DEFAULT_TURN_CAP,
 };
 

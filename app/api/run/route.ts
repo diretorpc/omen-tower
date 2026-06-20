@@ -1,18 +1,24 @@
 import { NextResponse } from "next/server";
 import { getRunSession } from "@/src/session";
 import { bossForFloor } from "@/src/game/bosses";
-import { generateSecret } from "@/src/game/fragments";
+import { rollFloor } from "@/src/game/randomize";
 import { turnsRemaining } from "@/src/game/turns";
+import { accessConfigured } from "@/src/access";
 
 export async function POST() {
   const session = await getRunSession();
+  if (accessConfigured() && !session.unlocked) {
+    return NextResponse.json({ error: "locked" }, { status: 401 });
+  }
   const boss = bossForFloor(1);
+  const { secret, defenses } = rollFloor(boss);
 
   session.run = {
     floor: 1,
-    secret: generateSecret(),
-    defenses: boss.defenses,
+    secret,
+    defenses,
     turnsUsed: 0,
+    totalTurns: 0,
     startedAt: Date.now(),
     clearedFloors: 0,
   };
@@ -21,7 +27,7 @@ export async function POST() {
   // Public info only — the secret and defenses never leave the server.
   return NextResponse.json({
     floor: boss.floor,
-    persona: { name: boss.name, flavor: boss.flavor },
+    persona: { name: boss.name, flavor: boss.flavor, hint: boss.hint },
     turnCap: boss.turnCap,
     turnsLeft: turnsRemaining(0, boss.turnCap),
   });

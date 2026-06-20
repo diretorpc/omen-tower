@@ -2,7 +2,7 @@ import { getIronSession, type SessionOptions } from "iron-session";
 import { cookies } from "next/headers";
 import type { RunState } from "./game/types";
 
-export type RunSession = { run?: RunState };
+export type RunSession = { run?: RunState; unlocked?: boolean };
 
 export const sessionOptions: SessionOptions = {
   password: process.env.SESSION_PASSWORD ?? "",
